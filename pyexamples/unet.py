@@ -36,10 +36,10 @@ arch = [
     *block_Unconv( name="b9", botton="end_b8", top='end_b9', s_filer=512, n_filer=64,  offset="(2.1,0,0)", size=(40,40,2.5), opacity=0.5 ),
     to_skip( of='ccr_b1', to='ccr_res_b9', pos=1.25),
 
-    to_ConvSoftMax( name="soft1", s_filer=512, offset="(0.75,0,0)", to="(end_b9-east)", width=1, height=40, depth=40, caption="SOFT" ),
+    to_ConvSoftMax( name="soft1", s_filer=512, offset="(0.75,0,0)", to="(end_b9-east)", width=1, height=40, depth=40, caption="SIGMOID" ),
     to_connection( "end_b9", "soft1"),
 
-    to_ConvSoftMax(name="soft1", s_filer=512, offset="(0.75,0,0)", to="(end_b9-east)", width=1, height=40, depth=40, caption="SOFT" ), 
+    to_ConvSoftMax(name="soft1", s_filer=512, offset="(0.75,0,0)", to="(end_b9-east)", width=1, height=40, depth=40, caption="SIGMOID" ), 
     to_connection("end_b9", "soft1"), to_output('../examples/output.PNG', off='3', to='(soft1-east)'), 
     to_end()
     ]

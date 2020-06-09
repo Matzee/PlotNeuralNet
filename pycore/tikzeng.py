@@ -19,7 +19,8 @@ def to_cor():
 \def\UnpoolColor{rgb:blue,2;green,1;black,0.3}
 \def\FcColor{rgb:blue,5;red,2.5;white,5}
 \def\FcReluColor{rgb:blue,5;red,5;white,4}
-\def\SoftmaxColor{rgb:magenta,5;black,7}   
+\def\SoftmaxColor{rgb:magenta,5;black,7}
+\def\DropColor{rgb:blue,5;red,2.5;white,5}
 """
 
 def to_begin():
@@ -45,8 +46,25 @@ def to_output( pathfile, off='0', to='(0,0,0)', width=8, height=8, name="temp" )
     \node[canvas is zy plane at x="""+ off +"""] (""" + name + """) at """+ to +""" {\includegraphics[width="""+ str(width)+"cm"+""",height="""+ str(height)+"cm"+"""]{"""+ pathfile +"""}}; 
 """
 
+def to_Drop(name, s_filer=256, n_filer=64, offset="(0,0,0)", to="(0,0,0)", width=1, height=40, depth=40, caption=""):
+    return r"""
+\pic[shift={"""+ offset +"""}] at """+ to +""" 
+    {Box={
+        name=""" + name +""",
+        caption="""+ caption +r""",
+        xlabel={{" ", " "}},
+        zlabel="""+ str(s_filer) +""",
+        fill=\DropColor,
+        height="""+ str(height) +""",
+        width="""+ str(width) +""",
+        depth="""+ str(depth) +"""
+        }
+    };
+"""
+
+
 # Conv
-def to_Conv( name, s_filer=256, n_filer=64, offset="(0,0,0)", to="(0,0,0)", width=1, height=40, depth=40, caption=" " ):
+def to_Conv( name, s_filer=256, n_filer=64, offset="(0,0,0)", to="(0,0,0)", width=1, height=40, depth=40, caption="" ):
     return r"""
 \pic[shift={"""+ offset +"""}] at """+ to +""" 
     {Box={
@@ -81,6 +99,40 @@ def to_ConvConvRelu( name, s_filer=256, n_filer=(64,64), offset="(0,0,0)", to="(
     };
 """
 
+def to_ConvConvConvRelu( name, s_filer=256, n_filer=(64,64,64), offset="(0,0,0)", to="(0,0,0)", width=(2,2,2), height=40, depth=40, caption=" " ):
+    return r"""
+\pic[shift={ """+ offset +""" }] at """+ to +""" 
+    {RightBandedBox={
+        name="""+ name +""",
+        caption="""+ caption +""",
+        xlabel={{ """+ str(n_filer[0]) +""",  """+ str(n_filer[1]) +""" , """+ str(n_filer[2]) +""" }},
+        zlabel="""+ str(s_filer) +""",
+        fill=\ConvColor,
+        bandfill=\ConvReluColor,
+        height="""+ str(height) +""",
+        width={ """+ str(width[0]) +""" , """+ str(width[1]) +""", """+ str(width[2]) +""" },
+        depth="""+ str(depth) +"""
+        }
+    };
+"""
+
+
+def to_ConvDropConvRelu( name, s_filer=256, n_filer=(64,64), offset="(0,0,0)", to="(0,0,0)", width=(2,2), height=40, depth=40, caption="Dropout" ):
+    return r"""
+\pic[shift={ """+ offset +""" }] at """+ to +""" 
+    {RightBandedBox={
+        name="""+ name +""",
+        caption="""+ caption +""",
+        xlabel={{ """+ str(n_filer[0]) +""", """+ str(n_filer[1]) +""" }},
+        zlabel="""+ str(s_filer) +""",
+        fill=\ConvColor,
+        bandfill=\ConvReluColor,
+        height="""+ str(height) +""",
+        width={ """+ str(width[0]) +""" , """+ str(width[1]) +""" },
+        depth="""+ str(depth) +"""
+        }
+    };
+"""
 
 
 # Pool
